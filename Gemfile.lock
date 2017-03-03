@@ -15,6 +15,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
+    ansi (1.5.0)
     backports (3.6.8)
     coffee-script (2.4.1)
       coffee-script-source
@@ -38,6 +39,7 @@ GEM
     i18n (0.7.0)
     json (2.0.3)
     kramdown (1.13.2)
+    liquid (4.0.0)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -84,6 +86,9 @@ GEM
     middleman-sprockets (4.1.0)
       middleman-core (~> 4.0)
       sprockets (>= 3.0)
+    middleman-syntax (3.0.0)
+      middleman-core (>= 3.2)
+      rouge (~> 2.0)
     minitest (5.10.1)
     padrino-helpers (0.13.3.3)
       i18n (~> 0.6, >= 0.6.7)
@@ -99,6 +104,7 @@ GEM
     rb-inotify (0.9.8)
       ffi (>= 0.5.0)
     redcarpet (3.4.0)
+    rouge (2.0.7)
     sass (3.4.23)
     servolux (0.12.0)
     slim (3.0.7)
@@ -120,18 +126,18 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ansi
   json
+  liquid
   middleman
   middleman-blog
   middleman-gh-pages
   middleman-inliner!
   middleman-sprockets
+  middleman-syntax
   rake
   redcarpet
   slim
-
-RUBY VERSION
-   ruby 2.3.1p112
 
 BUNDLED WITH
    1.13.6

@@ -1,4 +1,5 @@
 require 'lib/helpers'
+require 'ansi/code'
 require 'slim'
 
 ###
@@ -6,26 +7,20 @@ require 'slim'
 ###
 
 set :markdown_engine, :redcarpet
+set :markdown, fenced_code_blocks: true, disable_indented_code_blocks: true, strikethrough: true, smartypants: true, with_toc_data: true
 set :slim, :layout_engine => :slim
 
 activate :blog do |blog|
-    blog.prefix = "blog"
-    blog.permalink = "{title}.html"
-    blog.summary_separator = /\(READMORE\)/
+  blog.prefix = "blog"
+  blog.permalink = "{title}.html"
+  blog.summary_separator = /\(READMORE\)/
+	blog.layout = "partials/_blog_post"
 end
 
 activate :directory_indexes
 activate :inliner
+activate :syntax
 activate :sprockets
-
-configure :build do
-  activate :minify_css
-  activate :minify_javascript
-end
-
-###
-## Other settings
-####
 
 helpers Helpers
 

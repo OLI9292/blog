@@ -9,9 +9,8 @@
   box-sizing: border-box;
 }
 
-body {
-  background-color: $gray-light;
-  margin: 0;
+html, body {
+  margin-top: 0px;
 }
 
 .container {
@@ -31,25 +30,106 @@ header {
   display: block;
 }
 
-li {
-  list-style-type: none;
+.site-heading {
+	.intro-header {
+		@include background-cover;
+		background: no-repeat center center fixed;
+		background-image: url('/images/sky.jpg');
+		background-attachment: scroll;
+		background-color: rgba(0, 0, 0, 0.5);
+		background-size: cover;
+		height: 350px;
+		.site-heading {
+			text-align: center;
+			color: white;
+		}
+		h1 {
+			font-size: 4em;
+			letter-spacing: 0.5px;
+		}
+	}
 }
 
-.intro-header {
-	@include background-cover;
-  background: no-repeat center center fixed;
-  background-image: url('/images/sky.jpg');
-  background-attachment: scroll;
-  background-color: rgba(0, 0, 0, 0.5);
-  background-size: cover;
-	height: 350px;
-	.site-heading {
-		text-align: center;
-		color: white;
+
+#navigation {
+	position: fixed;
+	list-style-type: none;
+ 	height: 100%;
+	width: 30%;
+}
+
+
+.blog-header {
+  h1 {
+		display: inline;
+	}
+}
+
+.article-container { 
+	padding-top: 60px;
+  width: 50%;
+ 	margin-left: 40%;
+	font-family: 'Vollkorn', serif;
+	line-height: 30px;
+	p {
+		font-size: 16px;
+	}
+	strong {
+    font-size: 20px;
+		line-height: 50px;
 	}
 	h1 {
-  	font-size: 4em;
-		letter-spacing: 0.5px;
+    font-size: 22px;
+		font-weight: 700;
+	}
+	img {
+	  width: 50%;
+	}
+	a:link {
+    color: $gold;
+	}
+	a:visited {
+    color: $light-blue;
+	}
+	a:hover {
+    color: white;
+		background-color: $gold;
+		text-decoration: none;
 	}
 }
 
+span.left {
+	width: 50%;
+  top: 50%;
+  position: absolute;
+  margin-top: -50px;
+}
+
+span.right {
+	background-color: black;
+	width: 50%;
+	height: 100%;
+  right: 0;
+  position: absolute;
+}
+
+.date {
+	text-align: right
+}
+
+img.home {
+	background-image: url('/images/home-button.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 30px 30px;
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	border-style: solid;
+	border-width: 5px;
+	border-color: $gold;
+	margin-left: auto;
+  margin-right: auto;
+  display: inherit;
+}
+  
