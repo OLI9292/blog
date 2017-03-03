@@ -1,0 +1,166 @@
+<div id="navigation"><span class="left"><img class="home" /></span><span class="right"></span></div><meta charset="utf-8" /><meta content="IE=edge" http-equiv="X-UA-Compatible" /><title>Introduction to MapKit and Core Location</title><meta content="width=device-width initial-scale=1" name="viewport" /><link href="https://oli9292.github.io/blog/introduction-to-mapkit-and-core-location/" rel="canonical" /><meta content="https://oli9292.github.io/blog/introduction-to-mapkit-and-core-location/" itemprop="url" /><script type='text/javascript'>/*!
+loadCSS: load a CSS file asynchronously.
+[c]2015 @scottjehl, Filament Group, Inc.
+Licensed MIT
+*/
+
+(function(w){
+  "use strict";
+  /* exported loadCSS */
+  w.loadCSS = function( href, before, media ){
+    // Arguments explained:
+    // `href` [REQUIRED] is the URL for your CSS file.
+    // `before` [OPTIONAL] is the element the script should use as a reference for injecting our stylesheet <link> before
+      // By default, loadCSS attempts to inject the link after the last stylesheet or script in the DOM. However, you might desire a more specific location in your document.
+    // `media` [OPTIONAL] is the media type or query of the stylesheet. By default it will be 'all'
+    var ss = w.document.createElement( "link" );
+    var ref;
+    if( before ){
+      ref = before;
+    }
+    else if( w.document.querySelectorAll ){
+      var refs = w.document.querySelectorAll(  "style,link[rel=stylesheet],script" );
+      // No need to check length. This script has a parent element, at least
+      ref = refs[ refs.length - 1];
+    }
+    else {
+      ref = w.document.getElementsByTagName( "script" )[ 0 ];
+    }
+
+    var sheets = w.document.styleSheets;
+    ss.rel = "stylesheet";
+    ss.href = href;
+    // temporarily set media to something inapplicable to ensure it'll fetch without blocking render
+    ss.media = "only x";
+
+    // Inject link
+      // Note: the ternary preserves the existing behavior of "before" argument, but we could choose to change the argument to "after" in a later release and standardize on ref.nextSibling for all refs
+      // Note: `insertBefore` is used instead of `appendChild`, for safety re: http://www.paulirish.com/2011/surefire-dom-element-insertion/
+    ref.parentNode.insertBefore( ss, ( before ? ref : ref.nextSibling ) );
+    // A method (exposed on return object for external use) that mimics onload by polling until document.styleSheets until it includes the new sheet.
+    ss.onloadcssdefined = function( cb ){
+      var defined;
+      for( var i = 0; i < sheets.length; i++ ){
+        if( sheets[ i ].href && sheets[ i ].href === ss.href ){
+          defined = true;
+        }
+      }
+      if( defined ){
+        cb();
+      } else {
+        setTimeout(function() {
+          ss.onloadcssdefined( cb );
+        });
+      }
+    };
+
+    // once loaded, set link's media back to `all` so that the stylesheet applies once it loads
+    ss.onloadcssdefined(function() {
+      ss.media = media || "all";
+    });
+    return ss;
+  };
+}(this));
+</script><link href="https://fonts.googleapis.com/css?family=Vollkorn:400,400i,700,700i" rel="stylesheet" /><script>loadCSS('//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css');
+loadCSS('/css/all.css');</script><div class="article-container"><p><span><div class="date">March  2, 2017</div></span><h1>Introduction to MapKit and Core Location</h1><p><br></p>
+
+<p>One of the reasons I love iOS development, is that users more accepting about using applications that track their physical data.</p>
+
+<p>If you want to use maps and GPS you will need to import two frameworks: <a href="https://developer.apple.com/reference/mapkit">MapKit</a> and <a href="https://developer.apple.com/reference/corelocation">Core Location</a>.</p>
+
+<p><strong>MapKit</strong></p>
+
+<ul>
+<li><p>display map imagery in your views</p></li>
+<li><p>annotate your map with points of interest</p></li>
+</ul>
+
+<p><strong>Core Location</strong></p>
+
+<ul>
+<li><p>track the position of a users’ devices</p></li>
+<li><p>interact with beacons</p></li>
+</ul>
+
+<p><strong><center>* * * * *</center></strong></p>
+
+<p>In the following file, the <code>MapController</code> class that inherits from <code>UIView</code>. The corresponding view contains a <code>MKMapView</code>, which is our map. In the same class an instance of <code>CLLocationManager</code> is created. To track the current position of the user it is necessary to call <code>requestWhenInUseAuthorization()</code> and to call <code>startUpdatingLocation()</code> to notify our class with <code>CLLocation</code> data.
+Location data must be received via the <code>locationManager()</code> function, which is a stream of data containing all the tracked locations in an array, since the <code>locationManager</code> was created.
+<br><br></p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">UIKit</span>
+<span class="kd">import</span> <span class="kt">MapKit</span>
+<span class="kd">import</span> <span class="kt">CoreLocation</span>
+
+<span class="kd">class</span> <span class="kt">MapController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="kt">MKMapViewDelegate</span> <span class="p">{</span>
+
+  <span class="kd">@IBOutlet</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">map</span><span class="p">:</span> <span class="kt">MKMapView</span><span class="o">!</span>
+  <span class="k">let</span> <span class="nv">locationManager</span> <span class="o">=</span> <span class="kt">CLLocationManager</span><span class="p">()</span>
+
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nf">setUpMapView</span><span class="p">()</span>
+    <span class="nf">setupLocationTracking</span><span class="p">()</span>
+  <span class="p">}</span>
+
+  <span class="kd">func</span> <span class="nf">setUpMapView</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">map</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="k">self</span>
+    <span class="n">map</span><span class="o">.</span><span class="n">showsUserLocation</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="n">map</span><span class="o">.</span><span class="n">mapType</span> <span class="o">=</span> <span class="o">.</span><span class="n">satellite</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">private</span> <span class="kd">typealias</span> <span class="kt">LocationManager</span> <span class="o">=</span> <span class="kt">MapController</span>
+<span class="kd">extension</span> <span class="kt">LocationManager</span><span class="p">:</span> <span class="kt">CLLocationManagerDelegate</span> <span class="p">{</span>
+
+  <span class="kd">func</span> <span class="nf">setupLocationTracking</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">locationManager</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="k">self</span>
+    <span class="n">locationManager</span><span class="o">.</span><span class="nf">requestWhenInUseAuthorization</span><span class="p">()</span>
+    <span class="n">locationManager</span><span class="o">.</span><span class="n">desiredAccuracy</span> <span class="o">=</span> <span class="n">kCLLocationAccuracyBest</span>
+    <span class="n">locationManager</span><span class="o">.</span><span class="nf">startUpdatingLocation</span><span class="p">()</span>
+  <span class="p">}</span>
+
+  <span class="kd">func</span> <span class="nf">locationManager</span><span class="p">(</span><span class="n">_</span> <span class="nv">manager</span><span class="p">:</span> <span class="kt">CLLocationManager</span><span class="p">,</span> <span class="n">didUpdateLocations</span> <span class="nv">locations</span><span class="p">:</span> <span class="p">[</span><span class="kt">CLLocation</span><span class="p">])</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">location</span> <span class="o">=</span> <span class="n">locations</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="nf">map</span><span class="p">({</span> <span class="kt">Location</span><span class="p">(</span><span class="nv">location</span><span class="p">:</span> <span class="nv">$0</span><span class="p">)</span> <span class="p">})</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+    <span class="n">map</span><span class="o">.</span><span class="nf">setRegion</span><span class="p">(</span><span class="n">location</span><span class="o">.</span><span class="n">region</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p><code>CLLocation</code> data is cool, because it contains a lot more information than just latitude and longitude. For example, it provides altitude, speed, direction, radius of uncertainty, it can even tell you the logical floor of the building in which the user is located.
+For the purpose of the example, the objective is just to update the map, so the user sees his / her current position on the map. From the <code>locationManager()</code> data stream, the most recent location is mapped into an instance of Location.
+Interestingly, <code>MapKit</code> possesses a similar method to <code>locationManager()</code>. <code>mapView(_:didUpdate:)</code> notifies the delegate when the location of the user was updated. A major difference is that this method is not called if the application is running in the background, whereas Core Location’s does.
+The map location is set, and the view updated, through the <code>setRegion()</code> method of <code>MKMapView</code>, which accepts a <code>MKCoordinateRegion</code>. Location is abstracted into the following struct.
+<br><br></p>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Location</span> <span class="p">{</span>
+
+    <span class="k">let</span> <span class="nv">location</span><span class="p">:</span> <span class="kt">CLLocation</span>
+    <span class="k">let</span> <span class="nv">span</span> <span class="o">=</span> <span class="kt">MKCoordinateSpanMake</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+
+    <span class="k">var</span> <span class="nv">latitude</span><span class="p">:</span> <span class="kt">CLLocationDegrees</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">location</span><span class="o">.</span><span class="n">coordinate</span><span class="o">.</span><span class="n">latitude</span>
+    <span class="p">}</span>
+
+    <span class="k">var</span> <span class="nv">longitude</span><span class="p">:</span> <span class="kt">CLLocationDegrees</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">location</span><span class="o">.</span><span class="n">coordinate</span><span class="o">.</span><span class="n">longitude</span>
+    <span class="p">}</span>
+
+    <span class="k">var</span> <span class="nv">coordinates</span><span class="p">:</span> <span class="kt">CLLocationCoordinate2D</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">CLLocationCoordinate2DMake</span><span class="p">(</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">var</span> <span class="nv">region</span><span class="p">:</span> <span class="kt">MKCoordinateRegion</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">MKCoordinateRegionMake</span><span class="p">(</span><span class="n">coordinates</span><span class="p">,</span> <span class="n">span</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p><strong>Result</strong>
+<center><img src="/images/monkey-face.png" alt="Monkey face" /></center>
+<center>Russia</center>
+<center>65.476721, -173.511416</center></p>
+
+<p><strong><center>* * * * *</center></strong></p>
+
+<p><strong>Conclusion</strong></p>
+
+<p>MapKit and Core Location can be a feature of your app, or the key component. Some of the most popular apps on the App Store: Uber, Waze, Yelp, Pokemon Go, rely entirely on these frameworks.
+An interesting thing to monitor will be the increasing adoption of iBeacons and apps that utilize their data. Beacons are more versatile than Core Location’s geographical region monitoring, because they are mobile and provide greater accuracy in terms of distance to a specific point. In a world of IoT, one can easily imagine the power of an application that smartly analyzes it’s physical environment.</p>
+</p></div>

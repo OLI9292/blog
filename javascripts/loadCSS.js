@@ -1,4 +1,4 @@
-<!DOCTYPE html><html itemscope="" itemtype="http://schema.org/Blog"><head><meta charset="utf-8" /><meta content="IE=edge" http-equiv="X-UA-Compatible" /><title>Oliver Plunkett</title><meta content="width=device-width initial-scale=1" name="viewport" /><link href="https://oli9292.github.io/" rel="canonical" /><meta content="https://oli9292.github.io/" itemprop="url" /><script type='text/javascript'>/*!
+/*!
 loadCSS: load a CSS file asynchronously.
 [c]2015 @scottjehl, Filament Group, Inc.
 Licensed MIT
@@ -61,5 +61,3 @@ Licensed MIT
     return ss;
   };
 }(this));
-</script><link href="https://fonts.googleapis.com/css?family=Vollkorn:400,400i,700,700i" rel="stylesheet" /><script>loadCSS('//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css');
-loadCSS('/css/all.css');</script></head><body><hello>world</hello></body></html>
