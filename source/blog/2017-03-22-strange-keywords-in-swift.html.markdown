@@ -4,6 +4,60 @@ date: 2017-03-22 00:00
 ---
 <br>
 
+**AssociatedType**
+
+An associated type is a layer of abstraction for types or functions defined in Swift protocols.  The type of an associated type is not defined in the protocol so in this way it is similar to a generic.  When creating a class or struct that conforms to a protocol with an associated type, an actual type must be given.  This can be done implicitly, as shown in the function below, where the Adult class does not define `EmployeeKind`, but references it and gives it a type of `Bartender` in the `buyDrink` method.
+<br><br>
+
+```swift
+import Foundation
+
+protocol Liquid { }
+
+class Beer : Liquid { }
+
+protocol Customer {
+    associatedtype SafeLiquid
+    associatedtype EmployeeKind
+    
+    func drink(d: SafeLiquid)
+    func buyDrink(from: EmployeeKind)
+}
+
+protocol Bar {
+    associatedtype DrinkType
+    func sellDrink() -> DrinkType
+}
+
+class Bartender : Bar {
+    typealias DrinkType = Beer
+    
+    func sellDrink() -> DrinkType {
+        return Beer()
+    }
+}
+
+class Adult: Customer {
+    func drink(d: Beer) {
+        print(d)
+    }
+    
+    func buyDrink(from: Bartender) {
+        print(from)
+    }
+}
+
+func buyDrinkAndDrinkIt<T: Customer, U: Bar> (customer: T, bartender: U) where T.SafeLiquid == U.DrinkType {
+    let drink = bartender.sellDrink()
+    customer.drink(d: drink)
+}
+
+buyDrinkAndDrinkIt(customer: Adult(), bartender: Bartender())
+```
+<br>
+
+**<center>* * * * *</center>**
+
 **Dynamic**
 
 The `dynamic` keyword refers to the time to dispatch and can be applied to class functions or variables.  Dynamic dispatch occurs at runtime, as opposed to static dispatch, which runs at compile time.
