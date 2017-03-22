@@ -64,6 +64,58 @@ Licensed MIT
 </script><link href="https://fonts.googleapis.com/css?family=Vollkorn:400,400i,700,700i" rel="stylesheet" /><script>loadCSS('//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css');
 loadCSS('/css/all.css');</script><div class="article-container"><p><span><div class="date">March 22, 2017</div></span><h1>Strange Keywords in Swift</h1><p><br></p>
 
+<p><strong>AssociatedType</strong></p>
+
+<p>An associated type is a layer of abstraction for types or functions defined in Swift protocols.  The type of an associated type is not defined in the protocol so in this way it is similar to a generic.  When creating a class or struct that conforms to a protocol with an associated type, an actual type must be given.  This can be done implicitly, as shown in the function below, where the Adult class does not define <code>EmployeeKind</code>, but references it and gives it a type of <code>Bartender</code> in the <code>buyDrink</code> method.
+<br><br></p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">Foundation</span>
+
+<span class="kd">protocol</span> <span class="kt">Liquid</span> <span class="p">{</span> <span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">Beer</span> <span class="p">:</span> <span class="kt">Liquid</span> <span class="p">{</span> <span class="p">}</span>
+
+<span class="kd">protocol</span> <span class="kt">Customer</span> <span class="p">{</span>
+    <span class="kd">associatedtype</span> <span class="kt">SafeLiquid</span>
+    <span class="kd">associatedtype</span> <span class="kt">EmployeeKind</span>
+
+    <span class="kd">func</span> <span class="nf">drink</span><span class="p">(</span><span class="nv">d</span><span class="p">:</span> <span class="kt">SafeLiquid</span><span class="p">)</span>
+    <span class="kd">func</span> <span class="nf">buyDrink</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="kt">EmployeeKind</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">protocol</span> <span class="kt">Bar</span> <span class="p">{</span>
+    <span class="kd">associatedtype</span> <span class="kt">DrinkType</span>
+    <span class="kd">func</span> <span class="nf">sellDrink</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">DrinkType</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">Bartender</span> <span class="p">:</span> <span class="kt">Bar</span> <span class="p">{</span>
+    <span class="kd">typealias</span> <span class="kt">DrinkType</span> <span class="o">=</span> <span class="kt">Beer</span>
+
+    <span class="kd">func</span> <span class="nf">sellDrink</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">DrinkType</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kt">Beer</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="kt">Adult</span><span class="p">:</span> <span class="kt">Customer</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">drink</span><span class="p">(</span><span class="nv">d</span><span class="p">:</span> <span class="kt">Beer</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">buyDrink</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="kt">Bartender</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">from</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="n">buyDrinkAndDrinkIt</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">:</span> <span class="kt">Customer</span><span class="p">,</span> <span class="kt">U</span><span class="p">:</span> <span class="kt">Bar</span><span class="o">&gt;</span> <span class="p">(</span><span class="nv">customer</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">bartender</span><span class="p">:</span> <span class="kt">U</span><span class="p">)</span> <span class="k">where</span> <span class="kt">T</span><span class="o">.</span><span class="kt">SafeLiquid</span> <span class="o">==</span> <span class="kt">U</span><span class="o">.</span><span class="kt">DrinkType</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">drink</span> <span class="o">=</span> <span class="n">bartender</span><span class="o">.</span><span class="nf">sellDrink</span><span class="p">()</span>
+    <span class="n">customer</span><span class="o">.</span><span class="nf">drink</span><span class="p">(</span><span class="nv">d</span><span class="p">:</span> <span class="n">drink</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nf">buyDrinkAndDrinkIt</span><span class="p">(</span><span class="nv">customer</span><span class="p">:</span> <span class="kt">Adult</span><span class="p">(),</span> <span class="nv">bartender</span><span class="p">:</span> <span class="kt">Bartender</span><span class="p">())</span>
+</code></pre>
+<p><br></p>
+
+<p><strong><center>* * * * *</center></strong></p>
+
 <p><strong>Dynamic</strong></p>
 
 <p>The <code>dynamic</code> keyword refers to the time to dispatch and can be applied to class functions or variables.  Dynamic dispatch occurs at runtime, as opposed to static dispatch, which runs at compile time.</p>
