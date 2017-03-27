@@ -1,14 +1,12 @@
-div id="navigation"
-  span.left
-    img.home
-  span.right
-
 /Page Header
 == partial 'partials/_htmlhead'
 
 .article-container
-  p
-    span
-      div.date=current_article.date.strftime('%B %e, %Y')
-	h1=current_article.title
- 	== yield
+  .article
+    a[href="/blog"]
+      div.back-button
+    p
+      span
+        div.date=current_article.date.strftime('%B %e, %Y')
+  	h1=current_article.title
+   	== yield
