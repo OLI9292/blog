@@ -16,12 +16,13 @@
 
 .home-links {
   position: absolute;
-  height: 100%;
+  height: 10%;
   width: 100%;
   display: flex;
   justify-content: center;
   top: 65%;
-  list-style-type: none; }
+  list-style-type: none;
+  padding-left: 0; }
   .home-links li {
     margin: 0% 5% 0% 5%;
     font-family: 'Source Sans Pro', sans-serif;
@@ -34,6 +35,18 @@
       color: white;
       background-color: #e6b24f; }
 
+@media (max-width: 600px) {
+  .fullname {
+    font-size: 4em; }
+
+  .home-links {
+    font-size: 1em; } }
+@media (max-width: 400px) {
+  .fullname {
+    font-size: 3em; }
+
+  .home-links {
+    font-size: .75em; } }
 .intro-header {
   font-family: 'Source Sans Pro', sans-serif;
   color: #262626;
@@ -45,12 +58,14 @@
     font-weight: 200; }
   .intro-header span {
     font-size: 1em;
-    font-weight: 300; }
+    font-weight: 300;
+    color: #262626; }
 
 .container.archive {
   font-family: 'Source Sans Pro', sans-serif;
   color: #262626; }
   .container.archive .months {
+    padding-left: 0;
     list-style-type: none; }
     .container.archive .months .articles {
       list-style-type: none; }
@@ -73,6 +88,42 @@
             font-style: italic;
             font-weight: 200; }
 
+@media (max-width: 600px) {
+  .intro-header h1 {
+    font-size: 4em; }
+  .intro-header span {
+    font-size: .75em; }
+
+  .container.archive {
+    padding: 0; }
+    .container.archive .months .articles .month {
+      margin-top: 40px; }
+      .container.archive .months .articles .month h2 {
+        font-size: .75em; }
+      .container.archive .months .articles .month article {
+        margin: 20px 0px 0px 20px; }
+        .container.archive .months .articles .month article a {
+          font-size: 1.25em; }
+        .container.archive .months .articles .month article .post-meta {
+          font-size: .75em; } }
+@media (max-width: 400px) {
+  .intro-header h1 {
+    font-size: 3em; }
+  .intro-header span {
+    font-size: .5em; }
+
+  .container.archive {
+    padding: 0; }
+    .container.archive .months .articles .month {
+      margin-top: 30px; }
+      .container.archive .months .articles .month h2 {
+        font-size: .5em; }
+      .container.archive .months .articles .month article {
+        margin: 15px 0px 0px 15px; }
+        .container.archive .months .articles .month article a {
+          font-size: 1em; }
+        .container.archive .months .articles .month article .post-meta {
+          font-size: .5em; } }
 .back-button {
   background-image: url("/images/back.png");
   background-repeat: no-repeat;
@@ -123,6 +174,53 @@
       color: #e6b24f; }
     .article-container .article a:visited {
       color: #609dd3; }
+
+@media (max-width: 600px) {
+  .date {
+    font-size: .75em; }
+
+  .back-button {
+    margin-left: -25px; }
+
+  .article-container {
+    margin: 0; }
+    .article-container .article {
+      padding-top: 20px;
+      margin: 0 auto;
+      width: 80%;
+      min-width: 200px; }
+      .article-container .article h1 {
+        font-size: 3em; }
+      .article-container .article strong {
+        font-size: 1.5em; }
+      .article-container .article p {
+        font-size: 14px; }
+      .article-container .article pre {
+        font-size: 12px; } }
+@media (max-width: 400px) {
+  .date {
+    font-size: .75em; }
+
+  .back-button {
+    margin-left: -25px; }
+
+  .article-container {
+    margin: 0; }
+    .article-container .article {
+      margin: 0 auto;
+      width: 80%;
+      min-width: 200px; }
+      .article-container .article h1 {
+        font-size: 2em; }
+      .article-container .article strong {
+        font-size: 1.5em; }
+      .article-container .article p {
+        font-size: 12px; }
+      .article-container .article pre {
+        font-size: 10px; } }
+@media (max-width: 800px) and (orientation: landscape) {
+  .back-button {
+    margin-left: -25px; } }
 .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
 .highlight .cm {
