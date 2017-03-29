@@ -1,0 +1,68 @@
+<!DOCTYPE html><html itemscope="" itemtype="http://schema.org/Blog"><head><meta charset="utf-8" /><meta content="IE=edge" http-equiv="X-UA-Compatible" /><title>Oliver Plunkett</title><meta content="width=device-width initial-scale=1" name="viewport" /><link href="https://oli9292.github.io/resume/" rel="canonical" /><meta content="https://oli9292.github.io/resume/" itemprop="url" /><script type='text/javascript'>/*!
+loadCSS: load a CSS file asynchronously.
+[c]2015 @scottjehl, Filament Group, Inc.
+Licensed MIT
+*/
+
+(function(w){
+  "use strict";
+  /* exported loadCSS */
+  w.loadCSS = function( href, before, media ){
+    // Arguments explained:
+    // `href` [REQUIRED] is the URL for your CSS file.
+    // `before` [OPTIONAL] is the element the script should use as a reference for injecting our stylesheet <link> before
+      // By default, loadCSS attempts to inject the link after the last stylesheet or script in the DOM. However, you might desire a more specific location in your document.
+    // `media` [OPTIONAL] is the media type or query of the stylesheet. By default it will be 'all'
+    var ss = w.document.createElement( "link" );
+    var ref;
+    if( before ){
+      ref = before;
+    }
+    else if( w.document.querySelectorAll ){
+      var refs = w.document.querySelectorAll(  "style,link[rel=stylesheet],script" );
+      // No need to check length. This script has a parent element, at least
+      ref = refs[ refs.length - 1];
+    }
+    else {
+      ref = w.document.getElementsByTagName( "script" )[ 0 ];
+    }
+
+    var sheets = w.document.styleSheets;
+    ss.rel = "stylesheet";
+    ss.href = href;
+    // temporarily set media to something inapplicable to ensure it'll fetch without blocking render
+    ss.media = "only x";
+
+    // Inject link
+      // Note: the ternary preserves the existing behavior of "before" argument, but we could choose to change the argument to "after" in a later release and standardize on ref.nextSibling for all refs
+      // Note: `insertBefore` is used instead of `appendChild`, for safety re: http://www.paulirish.com/2011/surefire-dom-element-insertion/
+    ref.parentNode.insertBefore( ss, ( before ? ref : ref.nextSibling ) );
+    // A method (exposed on return object for external use) that mimics onload by polling until document.styleSheets until it includes the new sheet.
+    ss.onloadcssdefined = function( cb ){
+      var defined;
+      for( var i = 0; i < sheets.length; i++ ){
+        if( sheets[ i ].href && sheets[ i ].href === ss.href ){
+          defined = true;
+        }
+      }
+      if( defined ){
+        cb();
+      } else {
+        setTimeout(function() {
+          ss.onloadcssdefined( cb );
+        });
+      }
+    };
+
+    // once loaded, set link's media back to `all` so that the stylesheet applies once it loads
+    ss.onloadcssdefined(function() {
+      ss.media = media || "all";
+    });
+    return ss;
+  };
+}(this));
+</script><link href="https://fonts.googleapis.com/css?family=Vollkorn:400,400i,700,700i" rel="stylesheet" /><link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,700" rel="stylesheet" /><script>loadCSS('//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css');
+loadCSS('/css/all.css');
+function js_Load() {
+  document.body.style.visibility='visible';
+};</script></head><body onload="js_Load()" style="visibility: hidden"><div class="intro-header"><h1>Resume</h1><a href="/"><span class="subheading">Oliver Plunkett</span></a></div><div class="container resume"><div class="heading"><h2>EDUCATION</h2></div><div class="item"><div class="item-heading"><h3>Northwestern University</h3><p><span class="location">Evanston, IL</span><span class="date">2011 - 2015</span></p></div><div class="item-content"><p>Economics Major, Nonfiction Writing Minor</p><p>GPA:  3.5 / 4.0</p></div></div><div class="item"><div class="item-heading"><h3>National University of Singapore</h3><p><span class="location">Singapore</span><span class="date">Fall 2014</span></p></div></div><div class="heading"><h2>PROFESSIONAL EXPERIENCE</h2><div class="item"><div class="item-heading"><h3>Artsy</h3><p><span class="location">Berlin / NY</span><span class="date">Spring 2016 - Winter 2017</span></p></div><div class="item-subheading">Freelance Developer</div><div class="item-content"><p>Built a Ruby on Rails hypermedia API service for importing, processing, and organizing arts organization data.</p><p>Designed, built, and deployed an AB testing dashboard for the Analytics team.</p><p>Performance marketing strategy — lead generation and customer acquisition.</p></div></div><div class="item"><div class="item-heading"><h3>Artsy</h3><p><span class="location">New York, NY</span><span class="date">Fall 2015 - Winter 2016</span></p></div><div class="item-subheading">Digital Marketing Intern</div><div class="item-content"><p>Built a number of Python applications to automate work on the marketing team.  The applications saved each Digital Marketing team member 20hrs+ week, and the company thousands of dollars a month, which was being used for 3rd party software and consultants.</p><p>Wrote web scrappers, tapped APIs, and used information extraction techniques to forge databases around B2B leads.</p><p>Designed and coded interactive graphics for the editorial and marketing teams.</p></div></div><div class="item"><div class="item-heading"><h3>Takeout</h3><p><span class="location">London, UK</span><span class="date">Summer 2014 — 2015</span></p></div><div class="item-subheading">Mobile Technology Consultant</div><div class="item-content"><p>Conducted user and domain research for product innovation projects with Samsung, Cognizant and other tech companies.</p><p>Designed and presented business cases for product propositions.</p></div></div><div class="item"><div class="item-heading"><h3>Pricewaterhouse Coopers</h3><p><span class="location">New York, NY</span><span class="date">Summer 2014</span></p></div><div class="item-subheading">Mobile Technology Consultant</div><div class="item-content"><p>Coordinated a team of developers to build back office trading software for two of the biggest financial companies in the United States.</p></div></div><div class="item"><div class="item-heading"><h3>Gawker Media</h3><p><span class="location">New York, NY</span><span class="date">Winter 2011</span></p></div><div class="item-subheading">Analytics Intern</div><div class="item-content"><p>Tracked and organized website metrics across all of Gawker Media’s sites.</p></div></div></div><div class="heading"><h2>ACTIVITIES & LEADERSHIP</h2><div class="item"><div class="item-heading"><h3>Northwestern Men's Rugby</h3><p><span class="location">Evanston, IL</span><span class="date">2011 —  2015</span></p></div><div class="item-content"><p>Leader on Men's Rugby Team: 4-year starting Outside Center and 2nd leading scorer.</p></div></div></div><div class="heading"><h2>ADDITIONAL INFORMATION</h2><div class="item"><div class="item-content"><p><b>Skills</b> HTML/CSS, JavaScript, node.js, D3, React, Backbone, Angular, Python, Flask, Pandas, Scala, Ruby on Rails, APIs, Heroku, PowerPoint, PhotoShop, Excel</p><p><b>Citizenship</b> United States of America, United Kingdom</p></div></div></div></div></body></html>
