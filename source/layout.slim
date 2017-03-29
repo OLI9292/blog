@@ -3,6 +3,6 @@ html(itemscope itemtype="http://schema.org/Blog")
   head
      == partial 'partials/_htmlhead'
 
-  body
+  body style="visibility: hidden" onload="js_Load()"
     / Main Content
     == yield

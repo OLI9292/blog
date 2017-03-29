@@ -1,12 +1,13 @@
 /Page Header
 == partial 'partials/_htmlhead'
 
-.article-container
-  .article
-    a[href="/blog"]
-      div.back-button
-    p
-      span
-        div.date=current_article.date.strftime('%B %e, %Y')
-  	h1=current_article.title
-   	== yield
+body style="visibility: hidden" onload="js_Load()"
+  .article-container
+    .article
+      a[href="/blog"]
+        div.back-button
+      p
+        span
+          div.date=current_article.date.strftime('%B %e, %Y')
+    	h1=current_article.title
+     	== yield

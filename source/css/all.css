@@ -3,3 +3,14 @@
  *= require _highlighting
  */
 
+path {
+  animation: dash 25s linear;
+  stroke-width: 0.4;
+  animation-iteration-count: infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 500;
+  }
+}

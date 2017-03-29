@@ -1,7 +1,6 @@
 @import "_variables";
-@import "_mixins";
 
-* { 
+* {
   a:link {
     text-decoration: none;
   }
@@ -9,60 +8,75 @@
 
 // Home Page
 
-.fullname {
-  position: absolute;
+.home {
   height: 100%;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  letter-spacing: 2px;
-  font-family: 'Source Sans Pro', sans-serif;
-  font-weight: 200;
-  font-size: 8em;
-  color: $light-black;
-}
-
-.home-links {
-  position: absolute;
-  height: 10%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  top: 65%;
-  list-style-type: none;
-  padding-left: 0;
-  li {
-    margin: 0% 5% 0% 5%;
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 1.5em;
-    font-weight: 300;
-    cursor: pointer;
+  .container {
+    z-index: 999;
+    background-color: white;
+    width: 100%;
+    position: absolute;
+    display: table;
+    top: 0; left: 0; bottom: 0; right: 0;
+    margin: auto;
+    text-align: center;
   }
-  a {
+
+  .fullname {
+    letter-spacing: 2px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 200;
+    font-size: 8em;
     color: $light-black;
-    &:hover {
-      color: white;
-      background-color: $gold;
+  }
+
+  .home-links {
+    list-style-type: none;
+    padding-left: 0;
+    width: 100%;
+    text-align: center;
+
+    li {
+      margin: 0% 5% 0% 5%;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 1.5em;
+      font-weight: 300;
+      cursor: pointer;
+      display: inline;
     }
+
+    a {
+      color: $light-black;
+    }
+  }
+
+  svg {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: -999;
   }
 }
 
 @media (max-width: 600px) {
-  .fullname {
-    font-size: 4em;
-  }
-  .home-links {
-    font-size: 1em;
+  .home {
+    .fullname {
+      font-size: 4em;
+    }
+    .home-links {
+      font-size: 1em;
+    }
   }
 }
 
 @media (max-width: 400px) {
-  .fullname {
-    font-size: 3em;
-  }
-  .home-links {
-    font-size: .75em;
+  .home {
+    .fullname {
+      font-size: 3em;
+    }
+    .home-links {
+      font-size: .75em;
+    }
   }
 }
 
@@ -88,6 +102,7 @@
 .container.archive {
   font-family: 'Source Sans Pro', sans-serif;
   color: $light-black;
+  max-width: 900px;
   .months {
     padding-left: 0;
     list-style-type: none;
@@ -105,10 +120,6 @@
             color: $light-black;
             font-size: 1.75em;
             font-weight: 300;
-            &:hover {
-              color: white;
-              background-color: $gold;
-            }
           }
           .post-meta {
             font-size: 1em;
@@ -230,7 +241,7 @@
       margin-top: 50px;
       font-size: 4em;
       font-weight: 200;
-      text-align: center
+      text-align: center;
     }
     strong {
       line-height: 60px;
@@ -324,5 +335,60 @@
 @media (max-width: 800px) and (orientation:landscape) {
   .back-button {
     margin-left: -25px;
+  }
+}
+
+// Resume
+
+.container.resume {
+  max-width: 900px;
+  .heading {
+    margin-top: 75px;
+    h2 {
+      font-family: 'Source Sans Pro', sans-serif;
+      color: $light-black;
+      font-size: 2.5em;
+      font-weight: 300;
+    }
+  }
+  .item {
+    margin-top: 30px;
+    .item-heading {
+      font-family: 'Source Sans Pro', sans-serif;
+      width: 100%;
+      h3 {
+        color: $light-black;
+        font-size: 1.75em;
+        font-weight: 300;
+        display: inline;
+      }
+      p {
+        display: inline;
+      }
+      .location {
+        font-size: 1em;
+        margin-left: 15px;
+        font-weight: 300;
+      }
+      .date {
+        float: right;
+      }
+    }
+  }
+  .item-subheading {
+    margin-top: 2.5px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1em;
+    font-weight: 200;
+  }
+  .item-content {
+    margin: 20px 0px 0px 15px;
+    font-family: 'Source Sans Pro', sans-serif;
+    p {
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 1em;
+      line-height: 25px;
+      font-weight: 300;
+    }
   }
 }
