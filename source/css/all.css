@@ -4,7 +4,7 @@
  */
 
 path {
-  animation: dash 25s linear;
+  animation: dash 20s linear;
   stroke-width: 0.4;
   animation-iteration-count: infinite;
 }
