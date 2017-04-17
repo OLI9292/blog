@@ -65,5 +65,65 @@ Licensed MIT
 loadCSS('/css/all.css');
 function js_Load() {
   document.body.style.visibility='visible';
-};</script><body onload="js_Load()" style="visibility: hidden"><div class="article-container"><div class="article"><a href="/blog"><div class="back-button"></div></a><p><span><div class="date">February 26, 2017</div></span><h1>How I Became a Developer</h1><p>Hello World</p>
-</p></div></div></body>
+};</script><body onload="js_Load()" style="visibility: hidden"><div class="article-container"><div class="article"><a href="/blog"><div class="back-button"></div></a><p><span><div class="date">February 26, 2017</div></span><h1>How I Became a Developer</h1><p><br></p>
+
+<p>At University I studied Economics.  I was always good at maths and always had an interest in money so the choice was pretty natural.  I attempted to learn a programming language on my own during my junior year, but the rigidities of syntax gave me a lot of trouble. I thought to myself, &ldquo;&hellip;this just isn&rsquo;t for me,&rdquo; and I gave up without any regret. The next year I began consulting for a mobile innovation agency in the UK called <a href="http://welcometotakeout.com/">Takeout</a>. During projects I had the opportunity to work alongside designers and developers and in doing so, I quickly became enamored by the process of creating a product.</p>
+
+<p>When I graduated my goal was to work somewhere creative and inspiring, although what I didn&rsquo;t know was where I best fit in.</p>
+
+<p><strong><center>* * * * *</center></strong></p>
+
+<p>January 31, 2017 was my last day working <a href="http://artsy.net">Artsy</a>. I arrived at the company as a clueless college graduate and was leaving an eager developer. This had a lot to due with the kindness of my Artsy coworkers.  When I started to learn to code I was interested in how other developers had gotten their start. The engineers seemed so naturally intelligent. Code flowed effortlessly from them and it seemed impossible that they had ever experienced the struggles I was facing.</p>
+
+<p>I was a Digital Marketing Intern. I didn&rsquo;t know much about Marketing but I was very eager to get involved in projects in and outside my team.  At the end of the first week I scored an invite to a Gallery Insights meeting (Artsy&rsquo;s content marketing section). The upcoming article was a guest piece by Magnus Resch, an art market economist who had just released Management of Art Galleries. One task for our team was to adapt charts and analysis from Magnus’ book for use in the article.</p>
+
+<p>Here was my chance to do something cool! I started with a treemap depicting the annual revenue of the global art market in 2014. So far, so good. Then I had an idea. I knew some JavaScript from Codeacademy, and I had recently stumbled across D3.js (Data-Driven Documents). I thought to myself. . . What if I made one of these charts interactive?</p>
+
+<p>Some thoughts that crossed my mind:</p>
+
+<ul>
+<li><p>no one will go for it</p></li>
+<li><p>I cannot do this</p></li>
+<li><p>I am not a developer</p></li>
+</ul>
+
+<p>Thankfully, I shunned my self-doubt for just enough time to develop a prototype. When I presented it at our next meeting, my boss went for it. I worked with a designer to make it on brand, and an engineer who helped me integrate the static files onto the website for anyone to see. Take a look <a href="https://www.artsy.net/article/elena-soboleva-advice-from-the-art-world-s-most-controversial-economist">here</a>.
+I was so incredibly happy when the article was published. Had I become a great developer? Of course not! Objectively I was terrible, but, I was passionate, and passion is often a greater power than talent. </p>
+
+<p>My code is an embarrasing joy to look back at.</p>
+
+<p><center><strong>CSS - The Wrong Way</strong></center></p>
+
+<p><strong>Goal</strong></p>
+
+<p>When the user scrolls over a bar the data point should appear above the bar.</p>
+
+<p><center><img src="/images/bar_graph.png" alt="Bar graph" /></center></p>
+
+<p><strong>Code</strong></p>
+
+<p><center><img src="/images/bar_graph_css.png" alt="Bar graph css" /></center>
+<br/><br/>
+<center><strong>JavaScript - Ever heard of parameters?</strong></center></p>
+
+<p><strong>Goal</strong></p>
+
+<p>When the user clicks a country button, the bars pertaining to that country data should become highlighted.</p>
+
+<p><center><img src="/images/bar_graph2.png" alt="Bar graph2" /></center></p>
+
+<p><strong>Code</strong></p>
+
+<p><center><img src="/images/bar_graph2_js.png" alt="Bar graph2 js" /></center>
+<br/><br/></p>
+
+<p>Ok — that’s enough. Obviously, this isn’t how CSS or JavaScript were made to be used. The CSS is finicky and I should have based the positions of the data points on the relative position of the bar. The JavaScript is repetitive, because I had a clicked() function for each country, which all did the same thing. There should be one function that takes a country parameter. However, the end product works perfectly fine, and I learned a boatload of things while writing this ugly code.</p>
+
+<p>But, most importantly, I learned that programming is not some elusive realm only for people who studied Computer Science in at university. I proved that to myself.</p>
+
+<p><strong><center>* * * * *</center></strong></p>
+
+<p>I continued to develop interactive charts for Gallery Insights. See <a href="https://www.artsy.net/article/elena-soboleva-art-fair-insights-for-galleries-part-i">here</a> and <a href="https://www.artsy.net/article/elena-soboleva-art-fair-insights-for-galleries-part-ii-03-24-16">here</a>.</p>
+
+<p>After my internship ended, I continued to work for Artsy for another year as a freelance developer, expanding my skills. Now, I am learning about Swift and iOS development at Flatiron School in New York City.</p>
+</p></div></div></body><footer><p>by Oliver Plunkett</p><a href="mailto:otplunkett@gmail.com">Reachable by email</a></footer>

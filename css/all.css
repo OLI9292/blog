@@ -20,8 +20,12 @@
     letter-spacing: 2px;
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 200;
-    font-size: 8em;
-    color: #262626; }
+    font-size: 8em; }
+    .home .fullname a {
+      color: #262626;
+      transition-duration: 0.25s; }
+      .home .fullname a:hover {
+        opacity: 0.65; }
   .home .home-links {
     list-style-type: none;
     padding-left: 0;
@@ -32,10 +36,34 @@
       font-family: 'Source Sans Pro', sans-serif;
       font-size: 1.5em;
       font-weight: 300;
+      letter-spacing: 0.05em;
       cursor: pointer;
       display: inline; }
     .home .home-links a {
-      color: #262626; }
+      color: #262626;
+      transition-duration: 0.25s; }
+      .home .home-links a:hover {
+        opacity: 0.65; }
+  .home .open-source {
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    width: 200px;
+    border: .5px solid #ccc;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 300;
+    font-size: 1.2em;
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+    background-color: white; }
+    .home .open-source a {
+      cursor: pointer;
+      color: black; }
+      .home .open-source a:hover {
+        color: white; }
+    .home .open-source:hover {
+      background-color: #ccc; }
   .home svg {
     position: absolute;
     height: 100%;
@@ -46,7 +74,12 @@
   .home .fullname {
     font-size: 4em; }
   .home .home-links {
-    font-size: 1em; } }
+    font-size: 1em; }
+  .home .open-source {
+    font-size: .8em;
+    width: 140px;
+    height: 30px;
+    line-height: 30px; } }
 @media (max-width: 400px) {
   .home .fullname {
     font-size: 3em; }
@@ -85,7 +118,11 @@
           .container.archive .months .articles .month article a {
             color: #262626;
             font-size: 1.75em;
-            font-weight: 300; }
+            font-weight: 300;
+            letter-spacing: 0.025em;
+            transition-duration: 0.25s; }
+            .container.archive .months .articles .month article a:hover {
+              opacity: 0.65; }
           .container.archive .months .articles .month article .post-meta {
             font-size: 1em;
             font-style: italic;
@@ -134,7 +171,7 @@
   width: 50px;
   height: 50px;
   background-size: 40px 40px;
-  position: absolute;
+  position: fixed;
   margin-left: -75px;
   margin-top: 10px; }
   .back-button:hover {
@@ -170,7 +207,8 @@
       font-size: 1.75em;
       font-weight: 300; }
     .article-container .article p {
-      font-size: 16px; }
+      font-size: 17px;
+      line-height: 40px; }
     .article-container .article img {
       width: 50%; }
     .article-container .article a:link {
@@ -224,6 +262,18 @@
 @media (max-width: 800px) and (orientation: landscape) {
   .back-button {
     margin-left: -25px; } }
+footer {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: #262626;
+  font-size: 1em;
+  font-weight: 300;
+  max-width: 900px;
+  margin: auto;
+  padding: 30px 0px 60px 0px;
+  text-align: center; }
+  footer a {
+    cursor: pointer; }
+
 .container.resume {
   max-width: 900px; }
   .container.resume .heading {
