@@ -11,3 +11,6 @@ body style="visibility: hidden" onload="js_Load()"
           div.date=current_article.date.strftime('%B %e, %Y')
     	h1=current_article.title
      	== yield
+
+footer
+  == partial 'partials/_footer'
