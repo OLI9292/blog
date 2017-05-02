@@ -1,0 +1,203 @@
+<meta charset="utf-8" /><meta content="IE=edge" http-equiv="X-UA-Compatible" /><title>Connecting View Controllers</title><meta content="width=device-width initial-scale=1" name="viewport" /><link href="https://oli9292.github.io/blog/connecting-view-controllers/" rel="canonical" /><meta content="https://oli9292.github.io/blog/connecting-view-controllers/" itemprop="url" /><script type='text/javascript'>/*!
+loadCSS: load a CSS file asynchronously.
+[c]2015 @scottjehl, Filament Group, Inc.
+Licensed MIT
+*/
+
+(function(w){
+  "use strict";
+  /* exported loadCSS */
+  w.loadCSS = function( href, before, media ){
+    // Arguments explained:
+    // `href` [REQUIRED] is the URL for your CSS file.
+    // `before` [OPTIONAL] is the element the script should use as a reference for injecting our stylesheet <link> before
+      // By default, loadCSS attempts to inject the link after the last stylesheet or script in the DOM. However, you might desire a more specific location in your document.
+    // `media` [OPTIONAL] is the media type or query of the stylesheet. By default it will be 'all'
+    var ss = w.document.createElement( "link" );
+    var ref;
+    if( before ){
+      ref = before;
+    }
+    else if( w.document.querySelectorAll ){
+      var refs = w.document.querySelectorAll(  "style,link[rel=stylesheet],script" );
+      // No need to check length. This script has a parent element, at least
+      ref = refs[ refs.length - 1];
+    }
+    else {
+      ref = w.document.getElementsByTagName( "script" )[ 0 ];
+    }
+
+    var sheets = w.document.styleSheets;
+    ss.rel = "stylesheet";
+    ss.href = href;
+    // temporarily set media to something inapplicable to ensure it'll fetch without blocking render
+    ss.media = "only x";
+
+    // Inject link
+      // Note: the ternary preserves the existing behavior of "before" argument, but we could choose to change the argument to "after" in a later release and standardize on ref.nextSibling for all refs
+      // Note: `insertBefore` is used instead of `appendChild`, for safety re: http://www.paulirish.com/2011/surefire-dom-element-insertion/
+    ref.parentNode.insertBefore( ss, ( before ? ref : ref.nextSibling ) );
+    // A method (exposed on return object for external use) that mimics onload by polling until document.styleSheets until it includes the new sheet.
+    ss.onloadcssdefined = function( cb ){
+      var defined;
+      for( var i = 0; i < sheets.length; i++ ){
+        if( sheets[ i ].href && sheets[ i ].href === ss.href ){
+          defined = true;
+        }
+      }
+      if( defined ){
+        cb();
+      } else {
+        setTimeout(function() {
+          ss.onloadcssdefined( cb );
+        });
+      }
+    };
+
+    // once loaded, set link's media back to `all` so that the stylesheet applies once it loads
+    ss.onloadcssdefined(function() {
+      ss.media = media || "all";
+    });
+    return ss;
+  };
+}(this));
+</script><link href="https://fonts.googleapis.com/css?family=Vollkorn:400,400i,700,700i" rel="stylesheet" /><link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,700" rel="stylesheet" /><script>loadCSS('//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css');
+loadCSS('/css/all.css');
+function js_Load() {
+  document.body.style.visibility='visible';
+};</script><body onload="js_Load()" style="visibility: hidden"><div class="article-container"><div class="article"><a href="/blog"><div class="back-button"></div></a><p><span><div class="date">May  2, 2017</div></span><h1>Connecting View Controllers</h1><p><br></p>
+
+<p><strong>Inspiration</strong></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The inspiration behind this blog post comes from an <a href="https://www.objc.io/">objc.io</a> Swift Talk, with the same title as this one. In their talk, Chris Eidhof and Florian Kugler start with a small app and move the view controller connections, which start as segues in storyboard, to a centralized <code>App</code> class.</p>
+
+<p>The end result looks like this:
+<br><br></p>
+<pre class="highlight swift"><code><span class="kd">final</span> <span class="kd">class</span> <span class="kt">App</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="nv">storyboard</span> <span class="o">=</span> <span class="kt">UIStoryboard</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Main"</span><span class="p">,</span> <span class="nv">bundle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+  <span class="k">let</span> <span class="nv">navigationController</span><span class="p">:</span> <span class="kt">UINavigationController</span>
+
+  <span class="nf">init</span><span class="p">(</span><span class="nv">window</span><span class="p">:</span> <span class="kt">UIWindow</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">navigationController</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="k">as!</span> <span class="kt">UINavigationController</span>
+    <span class="k">let</span> <span class="nv">episodesVC</span> <span class="o">=</span> <span class="n">navigationController</span><span class="o">.</span><span class="n">viewControllers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">EpisodesViewController</span>
+    <span class="n">episodesVC</span><span class="o">.</span><span class="n">didSelect</span> <span class="o">=</span> <span class="n">showEpisode</span>
+    <span class="n">episodesVC</span><span class="o">.</span><span class="n">didTapProfile</span> <span class="o">=</span> <span class="n">showProfile</span>
+  <span class="p">}</span>
+
+  <span class="kd">func</span> <span class="nf">showEpisode</span><span class="p">(</span><span class="n">_</span> <span class="nv">episode</span><span class="p">:</span> <span class="kt">Episode</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">detailVC</span> <span class="o">=</span> <span class="n">storyboard</span><span class="o">.</span><span class="nf">instantiateViewController</span><span class="p">(</span><span class="nv">withIdentifier</span><span class="p">:</span> <span class="s">"Detail"</span><span class="p">)</span> <span class="k">as!</span> <span class="kt">DetailViewController</span>
+    <span class="n">detailVC</span><span class="o">.</span><span class="n">episode</span> <span class="o">=</span> <span class="n">episode</span>
+    <span class="n">navigationController</span><span class="o">.</span><span class="nf">pushViewController</span><span class="p">(</span><span class="n">detailVC</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="kd">func</span> <span class="nf">showProfile</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">profileNC</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">storyboard</span><span class="o">.</span><span class="nf">instantiateViewController</span><span class="p">(</span><span class="nv">withIdentifier</span><span class="p">:</span> <span class="s">"Profile"</span><span class="p">)</span> <span class="k">as!</span> <span class="kt">UINavigationController</span>
+    <span class="k">let</span> <span class="nv">profileVC</span> <span class="o">=</span> <span class="n">profileNC</span><span class="o">.</span><span class="n">viewControllers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">as!</span> <span class="kt">ProfileViewController</span>
+    <span class="n">profileVC</span><span class="o">.</span><span class="n">didTapClose</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="k">self</span><span class="o">.</span><span class="n">navigationController</span><span class="o">.</span><span class="nf">dismiss</span><span class="p">(</span><span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">navigationController</span><span class="o">.</span><span class="nf">present</span><span class="p">(</span><span class="n">profileNC</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p><br></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The <code>didSelect</code>, <code>didTapProfile</code>, and <code>didTapClose</code> methods are attributes on the actual view controllers, which are called based on certain events.  For example, in the Episodes Table View:
+<br><br></p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">EpisodesViewController</span><span class="p">:</span> <span class="kt">UITableViewController</span> <span class="p">{</span>
+
+    <span class="o">...</span>
+
+    <span class="k">var</span> <span class="nv">didSelect</span><span class="p">:</span> <span class="p">(</span><span class="kt">Episode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">}</span>
+
+    <span class="o">...</span>
+
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">_</span> <span class="nv">tableView</span><span class="p">:</span> <span class="kt">UITableView</span><span class="p">,</span> <span class="n">didSelectRowAt</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">IndexPath</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">episode</span> <span class="o">=</span> <span class="n">episodes</span><span class="p">[</span><span class="n">indexPath</span><span class="o">.</span><span class="n">row</span><span class="p">]</span>
+        <span class="nf">didSelect</span><span class="p">(</span><span class="n">episode</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p><br></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When the <code>EpisodesViewController</code> is instantiated, it&rsquo;s <code>didSelect</code> attribute is set to <code>App</code>&lsquo;s <code>showProfile</code> method, which takes an <code>episode</code> and pushes a <code>DetailViewController</code>.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chris and Florian&rsquo;s refactor is beneficial, because it centralizes transition logic in one place, rather than bloating the view controllers with boilerplate.</p>
+
+<p><strong><center>* * * * *</center></strong></p>
+
+<p><strong>Another Path</strong></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;While watching this Swift Talk, I had an idea for a different path Swift programmers could take to simplify and consolidate transition logic, which involves an enum and a protocol extension. I took the same code from Chris and Florian, removed the <code>App</code> class and a few other lines, and implemented my idea.  </p>
+
+<p>The end result looks like this:
+<br><br></p>
+<pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">Controller</span> <span class="p">{</span>
+
+  <span class="k">case</span> <span class="kt">Detail</span><span class="p">(</span><span class="nv">episode</span><span class="p">:</span> <span class="kt">Episode</span><span class="p">)</span>
+  <span class="k">case</span> <span class="kt">Episode</span>
+  <span class="k">case</span> <span class="kt">Profile</span>
+
+  <span class="k">var</span> <span class="nv">sb</span><span class="p">:</span> <span class="kt">UIStoryboard</span> <span class="p">{</span> <span class="k">return</span> <span class="kt">UIStoryboard</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Main"</span><span class="p">,</span> <span class="nv">bundle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span> <span class="p">}</span>
+
+  <span class="k">var</span> <span class="nv">instance</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="k">self</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="o">.</span><span class="kt">Detail</span><span class="p">(</span><span class="k">let</span> <span class="nv">episode</span><span class="p">):</span>
+      <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="n">sb</span><span class="o">.</span><span class="nf">instantiateViewController</span><span class="p">(</span><span class="nv">withIdentifier</span><span class="p">:</span> <span class="s">"Detail"</span><span class="p">)</span> <span class="k">as!</span> <span class="kt">DetailViewController</span>
+      <span class="n">vc</span><span class="o">.</span><span class="n">episode</span> <span class="o">=</span> <span class="n">episode</span>
+      <span class="k">return</span> <span class="n">vc</span>
+    <span class="k">case</span> <span class="o">.</span><span class="kt">Episode</span><span class="p">():</span>
+      <span class="k">return</span> <span class="n">sb</span><span class="o">.</span><span class="nf">instantiateViewController</span><span class="p">(</span><span class="nv">withIdentifier</span><span class="p">:</span> <span class="s">"Episode"</span><span class="p">)</span> <span class="k">as!</span> <span class="kt">EpisodesViewController</span>
+    <span class="k">case</span> <span class="o">.</span><span class="kt">Profile</span><span class="p">():</span>
+      <span class="k">return</span> <span class="n">sb</span><span class="o">.</span><span class="nf">instantiateViewController</span><span class="p">(</span><span class="nv">withIdentifier</span><span class="p">:</span> <span class="s">"Profile"</span><span class="p">)</span> <span class="k">as!</span> <span class="kt">UINavigationController</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">protocol</span> <span class="kt">Transitionable</span><span class="p">:</span> <span class="kd">class</span> <span class="p">{</span>
+
+  <span class="k">var</span> <span class="nv">navigationController</span><span class="p">:</span> <span class="kt">UINavigationController</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span>
+
+  <span class="kd">func</span> <span class="nf">present</span><span class="p">(</span><span class="nv">vc</span><span class="p">:</span> <span class="kt">Controller</span><span class="p">)</span>
+  <span class="kd">func</span> <span class="nf">push</span><span class="p">(</span><span class="nv">vc</span><span class="p">:</span> <span class="kt">Controller</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">extension</span> <span class="kt">Transitionable</span> <span class="p">{</span>
+
+  <span class="kd">func</span> <span class="nf">present</span><span class="p">(</span><span class="nv">vc</span><span class="p">:</span> <span class="kt">Controller</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="n">vc</span><span class="o">.</span><span class="n">instance</span>
+    <span class="n">navigationController</span><span class="p">?</span><span class="o">.</span><span class="nf">present</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="kd">func</span> <span class="nf">push</span><span class="p">(</span><span class="nv">vc</span><span class="p">:</span> <span class="kt">Controller</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">vc</span> <span class="o">=</span> <span class="n">vc</span><span class="o">.</span><span class="n">instance</span>
+    <span class="n">navigationController</span><span class="p">?</span><span class="o">.</span><span class="nf">pushViewController</span><span class="p">(</span><span class="n">vc</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p><br></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The general idea is to use the <code>Controller</code> enum as a data struct to represent all the possible view controllers, and to present or push these a view controller using the <code>Transitionable</code> protocol.  This makes it possible to present or push a view controller with a single line of code, for example, in the Episodes Table View, the code now reads:
+<br><br></p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">EpisodesViewController</span><span class="p">:</span> <span class="kt">UITableViewController</span> <span class="p">{</span>
+
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">_</span> <span class="nv">tableView</span><span class="p">:</span> <span class="kt">UITableView</span><span class="p">,</span> <span class="n">didSelectRowAt</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">IndexPath</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">episode</span> <span class="o">=</span> <span class="n">episodes</span><span class="p">[</span><span class="n">indexPath</span><span class="o">.</span><span class="n">row</span><span class="p">]</span>
+        <span class="nf">push</span><span class="p">(</span><span class="nv">vc</span><span class="p">:</span> <span class="kt">Controller</span><span class="o">.</span><span class="kt">Detail</span><span class="p">(</span><span class="nv">episode</span><span class="p">:</span> <span class="n">episode</span><span class="p">))</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p><br></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compared to the <code>objc.io</code> implementation, this line is more verbose, but it is also a little clearer what is happening (i.e. a detail view controller is being pushed onto the stack).</p>
+
+<p><strong><center>* * * * *</center></strong></p>
+
+<p><strong>Conclusion</strong></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In the context of this simple application, both approaches work, and are an improvement upon using segues in storyboard or writing the code in the view controllers. The next question is which approach is preferable in the context of a larger application?</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chris and Florian&rsquo;s approach seems to be more malleable, because their transitions are being uniquely set from the <code>App</code> class.  So, in the future they can easily create methods in this class to instantiate view controllers with different parameters. My approach might benefit from being a little more declarative at the points where transitions are called. Also, representing view controllers in an enum enables autocomplete and lets the programmer know which variables a view controller expects to be given. For example, we wouldn&rsquo;t want to push a <code>DetailViewController</code> without an <code>episode</code>.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feel free to look at the <a href="https://github.com/OLI9292/Connecting-view-controllers">source code</a> and email me any thoughts.</p>
+</p></div></div></body><footer><p>by Oliver Plunkett</p><a href="mailto:otplunkett@gmail.com">Reachable by email</a></footer>

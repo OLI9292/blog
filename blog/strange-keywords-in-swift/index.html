@@ -69,7 +69,7 @@ function js_Load() {
 
 <p><strong>AssociatedType</strong></p>
 
-<p>An associated type is a layer of abstraction for types or functions defined in Swift protocols.  The type of an associated type is not defined in the protocol so in this way it is similar to a generic.  When creating a class or struct that conforms to a protocol with an associated type, an actual type must be given.  This can be done implicitly, as shown in the function below, where the Adult class does not define <code>EmployeeKind</code>, but references it and gives it a type of <code>Bartender</code> in the <code>buyDrink</code> method.
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An associated type is a layer of abstraction for types or functions defined in Swift protocols.  The type of an associated type is not defined in the protocol so in this way it is similar to a generic.  When creating a class or struct that conforms to a protocol with an associated type, an actual type must be given.  This can be done implicitly, as shown in the function below, where the Adult class does not define <code>EmployeeKind</code>, but references it and gives it a type of <code>Bartender</code> in the <code>buyDrink</code> method.
 <br><br></p>
 <pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">Foundation</span>
 
@@ -121,9 +121,9 @@ function js_Load() {
 
 <p><strong>Dynamic</strong></p>
 
-<p>The <code>dynamic</code> keyword refers to the time to dispatch and can be applied to class functions or variables.  Dynamic dispatch occurs at runtime, as opposed to static dispatch, which runs at compile time.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The <code>dynamic</code> keyword refers to the time to dispatch and can be applied to class functions or variables.  Dynamic dispatch occurs at runtime, as opposed to static dispatch, which runs at compile time.</p>
 
-<p>In Swift, static dispatch is concretely achieved through the use of <code>final</code> and <code>static</code>.  Static provides a performance boost because the compiler immediately knows what is being called at runtime.  Although, because Swift allows method and property overrides, it sometimes has to determine what you are referring to at runtime.
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In Swift, static dispatch is concretely achieved through the use of <code>final</code> and <code>static</code>.  Static provides a performance boost because the compiler immediately knows what is being called at runtime.  Although, because Swift allows method and property overrides, it sometimes has to determine what you are referring to at runtime.
 <br><br></p>
 <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">Insect</span> <span class="p">{</span>
     <span class="kd">func</span> <span class="nf">makeNoise</span><span class="p">(</span><span class="nv">noise</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
@@ -139,19 +139,19 @@ function js_Load() {
 </code></pre>
 <p><br></p>
 
-<p>In the code above, if you were to call <code>makeNoise</code> on an instance of Animal, it is possible the Swift compiler would need to wait until runtime to determine, which class function you were referring to.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In the code above, if you were to call <code>makeNoise</code> on an instance of Animal, it is possible the Swift compiler would need to wait until runtime to determine, which class function you were referring to.</p>
 
-<p>When you use the dynamic keyword in Swift, it implicitly adds the @objc attribute and tells the compiler to use Objective-C runtime.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When you use the dynamic keyword in Swift, it implicitly adds the @objc attribute and tells the compiler to use Objective-C runtime.</p>
 
-<p>Static dispatch is preferable, and almost always performed, however there are cases when explicitly adding dynamic can save your app from crashing.  These situations usually occur when functions or properties will be interfered with or transformed at runtime.  A common example is app analytics libraries.  If you don’t do so, the Swift compiler could perform optimizations on those functions that cause unintended effects or break your app.  Dynamic dispatch also allows for better interoperability with other things that run in Objective-C runtime, like Core Data and Key-Value Observing.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Static dispatch is preferable, and almost always performed, however there are cases when explicitly adding dynamic can save your app from crashing.  These situations usually occur when functions or properties will be interfered with or transformed at runtime.  A common example is app analytics libraries.  If you don’t do so, the Swift compiler could perform optimizations on those functions that cause unintended effects or break your app.  Dynamic dispatch also allows for better interoperability with other things that run in Objective-C runtime, like Core Data and Key-Value Observing.</p>
 
 <p><strong><center>* * * * *</center></strong></p>
 
 <p><strong>Indirect</strong></p>
 
-<p>The <code>indirect</code> keyword allows for recursive enumerations.  You can place <code>indirect</code> before the enum&rsquo;s case(s) or before the enum itself.  Doing the latter enables indirection for all the enum&rsquo;s cases that could need it.  </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The <code>indirect</code> keyword allows for recursive enumerations.  You can place <code>indirect</code> before the enum&rsquo;s case(s) or before the enum itself.  Doing the latter enables indirection for all the enum&rsquo;s cases that could need it.  </p>
 
-<p>The compiler does the job of inserting the necessary layer of indirection for the enum.
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The compiler does the job of inserting the necessary layer of indirection for the enum.
 <br><br></p>
 <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">Nat</span> <span class="p">{</span>
     <span class="k">case</span> <span class="kt">Zero</span>
@@ -160,7 +160,7 @@ function js_Load() {
 </code></pre>
 <p><br></p>
 
-<p>Swift won&rsquo;t compile the above code without <code>indirect</code>.
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Swift won&rsquo;t compile the above code without <code>indirect</code>.
 <br><br></p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">zero</span><span class="p">:</span> <span class="kt">Nat</span> <span class="o">=</span> <span class="o">.</span><span class="kt">Zero</span>
 <span class="k">let</span> <span class="nv">one</span><span class="p">:</span> <span class="kt">Nat</span> <span class="o">=</span> <span class="o">.</span><span class="kt">Succ</span><span class="p">(</span><span class="n">zero</span><span class="p">)</span>
@@ -169,9 +169,9 @@ function js_Load() {
 </code></pre>
 <p><br></p>
 
-<p>Being recursive, we can define variable from our <code>Nat</code> enum using a previously defined <code>Nat</code>.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Being recursive, we can define a variable from our <code>Nat</code> enum using a previously defined <code>Nat</code>.</p>
 
-<p>The above code was taken from the beginning of a great blog post by Brandon Williams, in which he models natural numbers using an enumeration, and overloads operators so that cases from <code>Nat</code> can be added, multiplied, and more.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The above code was taken from the beginning of a great blog post by Brandon Williams, in which he models natural numbers using an enumeration, and overloads operators so that cases from <code>Nat</code> can be added, multiplied, and more.</p>
 
-<p>Check out his post <a href="http://www.fewbutripe.com/swift/math/2015/01/20/natural-numbers.html">here</a>.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Check out his post <a href="http://www.fewbutripe.com/swift/math/2015/01/20/natural-numbers.html">here</a>.</p>
 </p></div></div></body><footer><p>by Oliver Plunkett</p><a href="mailto:otplunkett@gmail.com">Reachable by email</a></footer>

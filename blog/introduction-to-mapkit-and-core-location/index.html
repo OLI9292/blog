@@ -67,9 +67,9 @@ function js_Load() {
   document.body.style.visibility='visible';
 };</script><body onload="js_Load()" style="visibility: hidden"><div class="article-container"><div class="article"><a href="/blog"><div class="back-button"></div></a><p><span><div class="date">March  2, 2017</div></span><h1>Introduction to MapKit and Core Location</h1><p><br></p>
 
-<p>One of the reasons I love iOS development, is that users more accepting about using applications that track their physical data.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One of the reasons I love iOS development, is that users more accepting about using applications that track their physical data.</p>
 
-<p>If you want to use maps and GPS you will need to import two frameworks: <a href="https://developer.apple.com/reference/mapkit">MapKit</a> and <a href="https://developer.apple.com/reference/corelocation">Core Location</a>.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you want to use maps and GPS you will need to import two frameworks: <a href="https://developer.apple.com/reference/mapkit">MapKit</a> and <a href="https://developer.apple.com/reference/corelocation">Core Location</a>.</p>
 
 <p><strong>MapKit</strong></p>
 
@@ -87,8 +87,9 @@ function js_Load() {
 
 <p><strong><center>* * * * *</center></strong></p>
 
-<p>In the following file, the <code>MapController</code> class that inherits from <code>UIView</code>. The corresponding view contains a <code>MKMapView</code>, which is our map. In the same class an instance of <code>CLLocationManager</code> is created. To track the current position of the user it is necessary to call <code>requestWhenInUseAuthorization()</code> and to call <code>startUpdatingLocation()</code> to notify our class with <code>CLLocation</code> data.
-Location data must be received via the <code>locationManager()</code> function, which is a stream of data containing all the tracked locations in an array, since the <code>locationManager</code> was created.
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In the following file, the <code>MapController</code> class that inherits from <code>UIView</code>. The corresponding view contains a <code>MKMapView</code>, which is our map. In the same class an instance of <code>CLLocationManager</code> is created. To track the current position of the user it is necessary to call <code>requestWhenInUseAuthorization()</code> and to call <code>startUpdatingLocation()</code> to notify our class with <code>CLLocation</code> data.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Location data must be received via the <code>locationManager()</code> function, which is a stream of data containing all the tracked locations in an array, since the <code>locationManager</code> was created.
 <br><br></p>
 <pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">UIKit</span>
 <span class="kd">import</span> <span class="kt">MapKit</span>
@@ -128,10 +129,15 @@ Location data must be received via the <code>locationManager()</code> function, 
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
-<p><code>CLLocation</code> data is cool, because it contains a lot more information than just latitude and longitude. For example, it provides altitude, speed, direction, radius of uncertainty, it can even tell you the logical floor of the building in which the user is located.
-For the purpose of the example, the objective is just to update the map, so the user sees his / her current position on the map. From the <code>locationManager()</code> data stream, the most recent location is mapped into an instance of Location.
-Interestingly, <code>MapKit</code> possesses a similar method to <code>locationManager()</code>. <code>mapView(_:didUpdate:)</code> notifies the delegate when the location of the user was updated. A major difference is that this method is not called if the application is running in the background, whereas Core Location’s does.
-The map location is set, and the view updated, through the <code>setRegion()</code> method of <code>MKMapView</code>, which accepts a <code>MKCoordinateRegion</code>. Location is abstracted into the following struct.
+<p><br></p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>CLLocation</code> data is cool, because it contains a lot more information than just latitude and longitude. For example, it provides altitude, speed, direction, radius of uncertainty, it can even tell you the logical floor of the building in which the user is located.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For the purpose of the example, the objective is just to update the map, so the user sees his / her current position on the map. From the <code>locationManager()</code> data stream, the most recent location is mapped into an instance of Location.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Interestingly, <code>MapKit</code> possesses a similar method to <code>locationManager()</code>. <code>mapView(_:didUpdate:)</code> notifies the delegate when the location of the user was updated. A major difference is that this method is not called if the application is running in the background, whereas Core Location’s does.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The map location is set, and the view updated, through the <code>setRegion()</code> method of <code>MKMapView</code>, which accepts a <code>MKCoordinateRegion</code>. Location is abstracted into the following struct.
 <br><br></p>
 <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Location</span> <span class="p">{</span>
 
@@ -155,6 +161,8 @@ The map location is set, and the view updated, through the <code>setRegion()</co
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
+<p><br></p>
+
 <p><strong>Result</strong>
 <center><img src="/images/monkey-face.png" alt="Monkey face" /></center>
 <center>Russia</center>
@@ -164,6 +172,7 @@ The map location is set, and the view updated, through the <code>setRegion()</co
 
 <p><strong>Conclusion</strong></p>
 
-<p>MapKit and Core Location can be a feature of your app, or the key component. Some of the most popular apps on the App Store: Uber, Waze, Yelp, Pokemon Go, rely entirely on these frameworks.
-An interesting thing to monitor will be the increasing adoption of iBeacons and apps that utilize their data. Beacons are more versatile than Core Location’s geographical region monitoring, because they are mobile and provide greater accuracy in terms of distance to a specific point. In a world of IoT, one can easily imagine the power of an application that smartly analyzes it’s physical environment.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MapKit and Core Location can be a feature of your app, or the key component. Some of the most popular apps on the App Store: Uber, Waze, Yelp, Pokemon Go, rely entirely on these frameworks.</p>
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An interesting thing to monitor will be the increasing adoption of iBeacons and apps that utilize their data. Beacons are more versatile than Core Location’s geographical region monitoring, because they are mobile and provide greater accuracy in terms of distance to a specific point. In a world of IoT, one can easily imagine the power of an application that smartly analyzes it’s physical environment.</p>
 </p></div></div></body><footer><p>by Oliver Plunkett</p><a href="mailto:otplunkett@gmail.com">Reachable by email</a></footer>
