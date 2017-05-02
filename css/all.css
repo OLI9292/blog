@@ -206,9 +206,12 @@
       line-height: 60px;
       font-size: 1.75em;
       font-weight: 300; }
+    .article-container .article .swift {
+      font-size: 14px;
+      line-height: 22px; }
     .article-container .article p {
-      font-size: 17px;
-      line-height: 40px; }
+      font-size: 18px;
+      line-height: 44px; }
     .article-container .article img {
       width: 50%; }
     .article-container .article a:link {
