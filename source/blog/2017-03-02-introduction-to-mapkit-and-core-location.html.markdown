@@ -4,9 +4,9 @@ date: 2017-03-02 00:00
 ---
 <br>
 
-One of the reasons I love iOS development, is that users more accepting about using applications that track their physical data.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One of the reasons I love iOS development, is that users more accepting about using applications that track their physical data.
 
-If you want to use maps and GPS you will need to import two frameworks: [MapKit](https://developer.apple.com/reference/mapkit) and [Core Location](https://developer.apple.com/reference/corelocation).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you want to use maps and GPS you will need to import two frameworks: [MapKit](https://developer.apple.com/reference/mapkit) and [Core Location](https://developer.apple.com/reference/corelocation).
 
 **MapKit**
 
@@ -22,8 +22,9 @@ If you want to use maps and GPS you will need to import two frameworks: [MapKit]
 
 **<center>* * * * *</center>**
 
-In the following file, the `MapController` class that inherits from `UIView`. The corresponding view contains a `MKMapView`, which is our map. In the same class an instance of `CLLocationManager` is created. To track the current position of the user it is necessary to call `requestWhenInUseAuthorization()` and to call `startUpdatingLocation()` to notify our class with `CLLocation` data.
-Location data must be received via the `locationManager()` function, which is a stream of data containing all the tracked locations in an array, since the `locationManager` was created.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In the following file, the `MapController` class that inherits from `UIView`. The corresponding view contains a `MKMapView`, which is our map. In the same class an instance of `CLLocationManager` is created. To track the current position of the user it is necessary to call `requestWhenInUseAuthorization()` and to call `startUpdatingLocation()` to notify our class with `CLLocation` data.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Location data must be received via the `locationManager()` function, which is a stream of data containing all the tracked locations in an array, since the `locationManager` was created.
 <br><br>
 
 ```swift
@@ -65,11 +66,15 @@ extension LocationManager: CLLocationManagerDelegate {
   }
 }
 ```
+<br>
 
-`CLLocation` data is cool, because it contains a lot more information than just latitude and longitude. For example, it provides altitude, speed, direction, radius of uncertainty, it can even tell you the logical floor of the building in which the user is located.
-For the purpose of the example, the objective is just to update the map, so the user sees his / her current position on the map. From the `locationManager()` data stream, the most recent location is mapped into an instance of Location.
-Interestingly, `MapKit` possesses a similar method to `locationManager()`. `mapView(_:didUpdate:)` notifies the delegate when the location of the user was updated. A major difference is that this method is not called if the application is running in the background, whereas Core Location’s does.
-The map location is set, and the view updated, through the `setRegion()` method of `MKMapView`, which accepts a `MKCoordinateRegion`. Location is abstracted into the following struct.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CLLocation` data is cool, because it contains a lot more information than just latitude and longitude. For example, it provides altitude, speed, direction, radius of uncertainty, it can even tell you the logical floor of the building in which the user is located.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For the purpose of the example, the objective is just to update the map, so the user sees his / her current position on the map. From the `locationManager()` data stream, the most recent location is mapped into an instance of Location.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Interestingly, `MapKit` possesses a similar method to `locationManager()`. `mapView(_:didUpdate:)` notifies the delegate when the location of the user was updated. A major difference is that this method is not called if the application is running in the background, whereas Core Location’s does.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The map location is set, and the view updated, through the `setRegion()` method of `MKMapView`, which accepts a `MKCoordinateRegion`. Location is abstracted into the following struct.
 <br><br>
 
 ```swift
@@ -95,6 +100,7 @@ struct Location {
     }
 }
 ```
+<br>
 
 **Result**
 <center>![](/images/monkey-face.png)</center>
@@ -105,6 +111,7 @@ struct Location {
 
 **Conclusion**
 
-MapKit and Core Location can be a feature of your app, or the key component. Some of the most popular apps on the App Store: Uber, Waze, Yelp, Pokemon Go, rely entirely on these frameworks.
-An interesting thing to monitor will be the increasing adoption of iBeacons and apps that utilize their data. Beacons are more versatile than Core Location’s geographical region monitoring, because they are mobile and provide greater accuracy in terms of distance to a specific point. In a world of IoT, one can easily imagine the power of an application that smartly analyzes it’s physical environment.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MapKit and Core Location can be a feature of your app, or the key component. Some of the most popular apps on the App Store: Uber, Waze, Yelp, Pokemon Go, rely entirely on these frameworks.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An interesting thing to monitor will be the increasing adoption of iBeacons and apps that utilize their data. Beacons are more versatile than Core Location’s geographical region monitoring, because they are mobile and provide greater accuracy in terms of distance to a specific point. In a world of IoT, one can easily imagine the power of an application that smartly analyzes it’s physical environment.
 
