@@ -268,11 +268,14 @@
 footer {
   font-family: 'Source Sans Pro', sans-serif;
   color: #262626;
-  font-size: 1em;
+  font-size: 1.2em;
   font-weight: 300;
   max-width: 900px;
+  border-top: 0.1px solid #ccc;
+  width: 90%;
   margin: auto;
-  padding: 30px 0px 60px 0px;
+  margin-top: 50px;
+  padding: 60px 0px 60px 0px;
   text-align: center; }
   footer a {
     cursor: pointer; }
@@ -284,10 +287,10 @@ footer {
     .container.resume .heading h2 {
       font-family: 'Source Sans Pro', sans-serif;
       color: #262626;
-      font-size: 2.5em;
-      font-weight: 300; }
+      font-size: 1.5em;
+      font-weight: 700; }
   .container.resume .item {
-    margin-top: 30px; }
+    margin-top: 50px; }
     .container.resume .item .item-heading {
       font-family: 'Source Sans Pro', sans-serif;
       width: 100%; }
@@ -297,9 +300,10 @@ footer {
         font-weight: 300;
         display: inline; }
       .container.resume .item .item-heading p {
-        display: inline; }
+        display: inline;
+        font-size: 1.2em; }
       .container.resume .item .item-heading .location {
-        font-size: 1em;
+        font-size: 1.2em;
         margin-left: 15px;
         font-weight: 300; }
       .container.resume .item .item-heading .date {
@@ -307,16 +311,20 @@ footer {
   .container.resume .item-subheading {
     margin-top: 2.5px;
     font-family: 'Source Sans Pro', sans-serif;
-    font-size: 1em;
+    font-size: 1.2em;
     font-weight: 200; }
   .container.resume .item-content {
     margin: 20px 0px 0px 15px;
     font-family: 'Source Sans Pro', sans-serif; }
     .container.resume .item-content p {
       font-family: 'Source Sans Pro', sans-serif;
-      font-size: 1em;
-      line-height: 25px;
+      font-size: 1.2em;
+      line-height: 30px;
       font-weight: 300; }
+  .container.resume a:link {
+    color: #e6b24f; }
+  .container.resume a:visited {
+    color: #609dd3; }
 .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
 .highlight .cm {
