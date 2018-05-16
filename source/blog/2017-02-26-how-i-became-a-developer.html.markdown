@@ -6,7 +6,7 @@ date: 2017-02-26 00:00
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;At University I studied Economics.  I was always good at maths and always had an interest in money so the choice was pretty natural.  I attempted to learn a programming language on my own during my junior year, but the rigidities of syntax gave me a lot of trouble. I thought to myself, "...this just isn't for me," and I gave up without any regret. The next year I began consulting for a mobile innovation agency in the UK called [Takeout](http://welcometotakeout.com/). During projects I had the opportunity to work alongside designers and developers and in doing so, I quickly became enamored by the process of creating a product.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When I graduated my goal was to work somewhere creative and inspiring, although what I didn't know was where I best fit in.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When I graduated my goal was to work somewhere inspiring, although what I didn't know was where I best fit in.
 
 **<center>* * * * *</center>**
 
